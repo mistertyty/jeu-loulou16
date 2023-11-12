@@ -25,7 +25,7 @@ public class NewBehaviourScript : MonoBehaviour
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticaltalInput = Input.GetAxisRaw("Vertical");
         Vector3 inputDir = orientation.forward * verticaltalInput + orientation.right * horizontalInput;
-        if(inputDir != Vector3.zero)
+        if (inputDir != Vector3.zero)
             playerObject.forward = Vector3.Slerp(playerObject.forward, inputDir.normalized, Time.deltaTime * rotationspeed);
 
     }
