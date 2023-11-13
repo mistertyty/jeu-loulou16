@@ -7,6 +7,7 @@ public class topdownmove : MonoBehaviour
 {
     public float speed;
     public Vector2 move;
+    Rigidbody rb;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -23,6 +24,11 @@ public class topdownmove : MonoBehaviour
         
     }
 
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+    }
     void Update()
     {
         MovePlayer();
