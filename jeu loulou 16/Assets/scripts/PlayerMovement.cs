@@ -5,7 +5,7 @@ using TMPro;
 using System.Text.RegularExpressions;
 using System;
 
-public class PlayerMovementTutorial : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
@@ -13,9 +13,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float groundDrag;
 
     public float jumpForce;
-    public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump;
     public float currentSpeed;
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
@@ -36,15 +34,16 @@ public class PlayerMovementTutorial : MonoBehaviour
     Rigidbody rb;
     public int maxJumps;
     public int numberOfJumps;
+    
+    [Header("power ups")]
+    [SerializeField] bool doubleJumpPower;
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
-        readyToJump = true;
     }
-
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -56,11 +55,8 @@ public class PlayerMovementTutorial : MonoBehaviour
             numberOfJumps -= 1;
 
             Jump();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
-
     private void MovePlayer()
     {
         // calculate movement direction
@@ -79,7 +75,6 @@ public class PlayerMovementTutorial : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection),0.15f);
         }
     }
-
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -91,7 +86,6 @@ public class PlayerMovementTutorial : MonoBehaviour
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
-
     private void Jump()
     {
         // reset y velocity
@@ -99,12 +93,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
-    private void ResetJump()
-    {
-        readyToJump = true;
-    }
-
-        private void Update()
+    private void Update()
     {
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
@@ -116,14 +105,17 @@ public class PlayerMovementTutorial : MonoBehaviour
         if (grounded)
         {
             rb.drag = groundDrag;
-            numberOfJumps = maxJumps;
+            if (doubleJumpPower)
+                numberOfJumps = maxJumps;
+            else
+                numberOfJumps = 0;
         }
         else
             rb.drag = 0;
         Vector3 prevPos = transform.position;
         currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos)/Time.deltaTime);
     }
-        private void FixedUpdate()
+    private void FixedUpdate()
     {
         MovePlayer();
     }
