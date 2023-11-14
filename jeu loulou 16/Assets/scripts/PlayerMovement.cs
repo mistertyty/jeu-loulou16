@@ -34,6 +34,8 @@ public class PlayerMovementTutorial : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    public int maxJumps;
+    public int numberOfJumps;
 
     private void Start()
     {
@@ -49,9 +51,9 @@ public class PlayerMovementTutorial : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if(Input.GetKeyDown(jumpKey) && numberOfJumps!=0)
         {
-            readyToJump = false;
+            numberOfJumps -= 1;
 
             Jump();
 
@@ -112,7 +114,10 @@ public class PlayerMovementTutorial : MonoBehaviour
 
         // handle drag
         if (grounded)
+        {
             rb.drag = groundDrag;
+            numberOfJumps = maxJumps;
+        }
         else
             rb.drag = 0;
         Vector3 prevPos = transform.position;
