@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Text.RegularExpressions;
+using System;
 
 public class PlayerMovementTutorial : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
-
+    public float currentSpeed;
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
 
@@ -25,8 +27,6 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
-
-    public Transform orientation;
 
     float horizontalInput;
     float verticalInput;
@@ -41,26 +41,6 @@ public class PlayerMovementTutorial : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
-    }
-
-    private void Update()
-    {
-        // ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
-
-        MyInput();
-        SpeedControl();
-
-        // handle drag
-        if (grounded)
-            rb.drag = groundDrag;
-        else
-            rb.drag = 0;
-    }
-
-    private void FixedUpdate()
-    {
-        MovePlayer();
     }
 
     private void MyInput()
@@ -82,7 +62,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     private void MovePlayer()
     {
         // calculate movement direction
-        moveDirection = new Vector3(1,0,1);
+        moveDirection = new Vector3(0,0,1) * verticalInput + new Vector3(1,0,0) * horizontalInput;
 
         // on ground
         if(grounded)
@@ -91,6 +71,11 @@ public class PlayerMovementTutorial : MonoBehaviour
         // in air
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+
+        if(moveDirection != Vector3.zero)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection),0.15f);
+        }
     }
 
     private void SpeedControl()
@@ -115,5 +100,26 @@ public class PlayerMovementTutorial : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+        private void Update()
+    {
+        // ground check
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+
+        MyInput();
+        SpeedControl();
+
+        // handle drag
+        if (grounded)
+            rb.drag = groundDrag;
+        else
+            rb.drag = 0;
+        Vector3 prevPos = transform.position;
+        currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos)/Time.deltaTime);
+    }
+        private void FixedUpdate()
+    {
+        MovePlayer();
     }
 }
