@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Text.RegularExpressions;
-using System;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementTutorial : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
@@ -14,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
 
     public float jumpForce;
     public float airMultiplier;
-    public float currentSpeed;
+    public float coyoteTime;
+    public float coyoteTimeCounter;
+    bool jumpEnable = true;
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
 
@@ -26,73 +26,27 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
+    public Transform orientation;
+
     float horizontalInput;
     float verticalInput;
 
     Vector3 moveDirection;
 
     Rigidbody rb;
+
     public int maxJumps;
-    public int numberOfJumps;
+    public int numberOfBonusJumps;
     
     [Header("power ups")]
     [SerializeField] bool doubleJumpPower;
-
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
     }
-    private void MyInput()
-    {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
 
-        // when to jump
-        if(Input.GetKeyDown(jumpKey) && numberOfJumps!=0)
-        {
-            numberOfJumps -= 1;
-
-            Jump();
-        }
-    }
-    private void MovePlayer()
-    {
-        // calculate movement direction
-        moveDirection = new Vector3(0,0,1) * verticalInput + new Vector3(1,0,0) * horizontalInput;
-
-        // on ground
-        if(grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
-        // in air
-        else if(!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
-
-        if(moveDirection != Vector3.zero)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection),0.15f);
-        }
-    }
-    private void SpeedControl()
-    {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        // limit velocity if needed
-        if(flatVel.magnitude > moveSpeed)
-        {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
-        }
-    }
-    private void Jump()
-    {
-        // reset y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-    }
     private void Update()
     {
         // ground check
@@ -105,18 +59,75 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             rb.drag = groundDrag;
-            if (doubleJumpPower)
-                numberOfJumps = maxJumps;
-            else
-                numberOfJumps = 0;
+            if (doubleJumpPower && jumpEnable)
+                numberOfBonusJumps = maxJumps;
+            coyoteTimeCounter = coyoteTime;
         }
         else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
             rb.drag = 0;
-        Vector3 prevPos = transform.position;
-        currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos)/Time.deltaTime);
+        }
     }
+
     private void FixedUpdate()
     {
         MovePlayer();
+    }
+
+    private void MyInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+
+        // when to jump
+        if(Input.GetKeyDown(jumpKey) && (numberOfBonusJumps!=0 || coyoteTimeCounter >= 0f) && jumpEnable)
+        {
+            jumpEnable = false;
+            Invoke(nameof(ResetJump),0.1f);
+            if (coyoteTimeCounter < 0f)
+                numberOfBonusJumps-=1;
+            coyoteTimeCounter = 0f;
+            Jump();
+        }
+    }
+
+    private void MovePlayer()
+    {
+        // calculate movement direction
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+        // on ground
+        if(grounded)
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+        // in air
+        else if(!grounded)
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+    }
+
+    private void SpeedControl()
+    {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        // limit velocity if needed
+        if(flatVel.magnitude > moveSpeed)
+        {
+            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+        }
+    }
+
+    private void Jump()
+    {
+        // reset y velocity
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void ResetJump()
+    {
+        jumpEnable = true;
     }
 }
