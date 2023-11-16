@@ -186,7 +186,6 @@ Transform:
   m_Children:
   - {fileID: 87419590}
   - {fileID: 913398744}
-  - {fileID: 536892623}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &15045889
@@ -251,6 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e4377a5efd9844aa196fe354ad0df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpSmoke: {fileID: 536892625}
   moveSpeed: 0
   groundDrag: 5
   walkSpeed: 5
@@ -325,6 +325,7 @@ Transform:
   m_LocalScale: {x: 1.01, y: 1.01, z: 1.01}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 536892623}
   - {fileID: 693879152}
   - {fileID: 1160891460}
   m_Father: {fileID: 15045887}
@@ -955,11 +956,11 @@ Transform:
   m_GameObject: {fileID: 536892622}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.99592984, z: 0.09013187, w: 0}
-  m_LocalPosition: {x: 0, y: -0.939, z: -0.196}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.8217823, z: -0.16831684}
+  m_LocalScale: {x: 0.9900991, y: 0.9900991, z: 0.9900991}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 15045887}
+  m_Father: {fileID: 87419590}
   m_LocalEulerAnglesHint: {x: -10.342, y: 180, z: 0}
 --- !u!199 &536892624
 ParticleSystemRenderer:
@@ -1613,7 +1614,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.05
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -2048,8 +2049,8 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -2
-          outSlope: -2
+          inSlope: 0
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -2057,8 +2058,8 @@ ParticleSystem:
         - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: 0
-          outSlope: 0
+          inSlope: -2
+          outSlope: -2
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -4679,9 +4680,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
@@ -4744,7 +4745,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2

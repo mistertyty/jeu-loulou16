@@ -5,6 +5,9 @@ using TMPro;
 
 public class PlayerMovementTutorial : MonoBehaviour
 {
+    [Header("Animations")]
+    public ParticleSystem jumpSmoke;
+
     [Header("Movement")]
     public float moveSpeed;
     public float groundDrag;
@@ -30,7 +33,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
-    
+
     float horizontalInput;
     float verticalInput;
 
@@ -124,7 +127,8 @@ public class PlayerMovementTutorial : MonoBehaviour
     }
 
     private void Jump()
-    {
+    {   
+        jumpSmoke.Play();
         // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
