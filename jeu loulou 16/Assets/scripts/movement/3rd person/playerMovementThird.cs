@@ -128,7 +128,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void Jump()
     {   
-        jumpSmoke.Play();
+        Instantiate(jumpSmoke,transform.position,transform.rotation);
         // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
