@@ -11,6 +11,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float walkSpeed;
     public float sprintSpeed;
     [SerializeField] bool isSprinting;
+    public Transform orientation;
 
     [Header("jump")]
     public float jumpForce;
@@ -29,8 +30,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
-    public Transform orientation;
-
+    
     float horizontalInput;
     float verticalInput;
 
