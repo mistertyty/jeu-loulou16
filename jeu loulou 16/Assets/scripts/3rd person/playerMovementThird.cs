@@ -7,16 +7,19 @@ public class PlayerMovementTutorial : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
-
     public float groundDrag;
+    public float walkSpeed;
+    public float sprintSpeed;
+    [SerializeField] bool isSprinting;
 
+    [Header("jump")]
     public float jumpForce;
     public float airMultiplier;
     public float coyoteTime;
     public float coyoteTimeCounter;
-    bool jumpEnable = true;
-    [HideInInspector] public float walkSpeed;
-    [HideInInspector] public float sprintSpeed;
+    [SerializeField] bool jumpEnable = true;
+    public int maxJumps;
+    public int numberOfBonusJumps;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -35,9 +38,6 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     Rigidbody rb;
 
-    public int maxJumps;
-    public int numberOfBonusJumps;
-    
     [Header("power ups")]
     [SerializeField] bool doubleJumpPower;
 
@@ -45,6 +45,8 @@ public class PlayerMovementTutorial : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        moveSpeed = walkSpeed;
     }
 
     private void Update()
@@ -54,6 +56,7 @@ public class PlayerMovementTutorial : MonoBehaviour
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
 
         MyInput();
+        Sprint();
         SpeedControl();
 
         // handle drag
@@ -131,5 +134,15 @@ public class PlayerMovementTutorial : MonoBehaviour
     private void ResetJump()
     {
         jumpEnable = true;
+    }
+    
+    private void Sprint()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+            isSprinting = !isSprinting;
+        if (isSprinting)
+            moveSpeed = sprintSpeed;
+        else
+            moveSpeed = walkSpeed;
     }
 }
