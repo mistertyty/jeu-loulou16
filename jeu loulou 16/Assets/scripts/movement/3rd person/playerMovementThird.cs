@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class PlayerMovementTutorial : MonoBehaviour
 {
     [Header("Animations")]
     public ParticleSystem jumpSmoke;
+    public ParticleSystem runSmoke;
+    int i;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -15,6 +18,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float sprintSpeed;
     [SerializeField] bool isSprinting;
     public Transform orientation;
+    private Vector3 oldPos;
 
     [Header("jump")]
     public float jumpForce;
@@ -50,6 +54,8 @@ public class PlayerMovementTutorial : MonoBehaviour
         rb.freezeRotation = true;
 
         moveSpeed = walkSpeed;
+
+        oldPos = transform.position;
     }
 
     private void Update()
@@ -57,7 +63,15 @@ public class PlayerMovementTutorial : MonoBehaviour
         // ground check
         grounded = Physics.SphereCast(transform.position,0.5f,Vector3.down, out RaycastHit yes,playerHeight * 0.5f - 0.3f, whatIsGround);
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
-
+        if (((oldPos.x != transform.position.x) ||(oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) &((horizontalInput != 0) || (verticalInput != 0)))
+            if (i > 10)
+            {
+                Instantiate(runSmoke,new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z),transform.rotation);
+                i = 0;
+            }
+            i++;
+        
+        oldPos = transform.position;
         MyInput();
         Sprint();
         SpeedControl();
@@ -107,8 +121,9 @@ public class PlayerMovementTutorial : MonoBehaviour
 
         // on ground
         if(grounded)
+        {    
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
+        }
         // in air
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
