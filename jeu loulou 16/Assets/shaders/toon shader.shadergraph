@@ -37,6 +37,9 @@
         },
         {
             "m_Id": "0872ea1629e3476980c8e8ab82d0e927"
+        },
+        {
+            "m_Id": "5ecdfc0505e04d1c8b8bcc3936fac259"
         }
     ],
     "m_GroupDatas": [],
@@ -254,6 +257,42 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "VertexDescription.Position"
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.CustomFunctionNode",
+    "m_ObjectId": "5ecdfc0505e04d1c8b8bcc3936fac259",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Custom Function",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -317.9999694824219,
+            "y": 148.0,
+            "width": 208.0,
+            "height": 245.0
+        }
+    },
+    "m_Slots": [],
+    "synonyms": [
+        "code",
+        "HLSL"
+    ],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SourceType": 0,
+    "m_FunctionName": "Enter function name here...",
+    "m_FunctionSource": "532438c4f2d237d4293aa07e8c6e3d6e",
+    "m_FunctionBody": "Enter function body here..."
 }
 
 {
