@@ -8,10 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: playerBody
-  m_Shader: {fileID: -6465566751694194690, guid: 9f7034d454fbe5848a5f7989dd88a716, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 2c3c6a46626419c4f8bbdeab2ec2afbd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _HAFTONESHAPES_DOT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,19 +24,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -43,19 +36,11 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTex:
+    - _HatchingPatternMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
+    - _RampTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -73,27 +58,56 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Boolean_f9999c8db29c427d86a843c1a1c85720: 0
+    - ShadowPatternScale: 10
+    - Vector1_0f3ca3289daa40b4a7654cc64fd05ec1: 0
+    - Vector1_85d44c600d6c46b38d9c8065f25681ea: 0
+    - Vector1_c89cb8dc56774a9583c7b9c3a5725c4c: 0
+    - Vector1_e5b6f1488dec4326bd8bbd0e05156810: 0
+    - _AllToon_OverrideShadowColor: 0
     - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _QueueControl: 0
+    - _DitherTexelSize: 1
+    - _DitherThreshold: 0
+    - _HAFTONESHAPES: 0
+    - _HafltoneFadeDistance: 10
+    - _HalfToneEnabled: 0
+    - _HalfToneIncludeReceivedShadow: 0
+    - _HalftoneDiffuseOffest: 0
+    - _HalftoneFadeToColor: 0
+    - _HalftoneLightSizeFactor: 0
+    - _HalftoneScale: 0
+    - _HalftoneSize: 0.3
+    - _HalftoneUseScreenSpaceUV: 0
+    - _HatchingDensity: 1
+    - _HatchingDiffuseOffset: 0
+    - _HatchingDrawStrength: 4
+    - _HatchingEnabled: 0
+    - _HatchingRotation: 0
+    - _HatchingSmoothness: 0.2
+    - _QueueControl: -1
     - _QueueOffset: 0
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
+    - _RIMLIGHTING: 0
+    - _RimLightAlign: 0
+    - _RimLightSmootness: 0
+    - _RimPower: 0
+    - _SPECULARHIGHTLIGHTS: 0
+    - _ShadowPatternSize: 0.3
+    - _SpecColor_1: 0.1
+    - _SpecFalloff: 0
+    - _SpecShadowStrenth: 1
+    - _StepViaRampTexture: 0
+    - _USERAMPCOLOR: 0
+    - _UseClipPattern: 0
+    - _UseNormalMap: 0
     m_Colors:
-    - _Color: {r: 0, g: 0.6019416, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HalftoneColor: {r: 0.5176471, g: 0.5176471, b: 0.5176471, a: 1}
+    - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HatchingScale: {r: 15, g: 1, b: 0, a: 0}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5853736699336505124
 MonoBehaviour:

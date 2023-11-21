@@ -186,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 701738087223489911}
   firePosition: {fileID: 6730957904176654093}
+  fireRotation: {fileID: 6203717888221681299}
 --- !u!1 &718737607889054115
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +248,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cadd54262166a344b809cd9e6cb0b113, type: 2}
+  - {fileID: 2100000, guid: 7cc6ef6a4e6c3064a91d051864ffb05c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -333,7 +334,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e6a4d81dfe5005c438c60747a8721ae7, type: 2}
+  - {fileID: 2100000, guid: 7cc6ef6a4e6c3064a91d051864ffb05c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -547,7 +548,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cadd54262166a344b809cd9e6cb0b113, type: 2}
+  - {fileID: 2100000, guid: 7cc6ef6a4e6c3064a91d051864ffb05c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
