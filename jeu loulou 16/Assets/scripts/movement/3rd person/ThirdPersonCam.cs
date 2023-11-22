@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class ThirdPersonCam : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class ThirdPersonCam : MonoBehaviour
     public Transform player;
     public Transform playerObj;
     public Rigidbody rb;
+    [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
 
     public float rotationSpeed;
 
@@ -32,5 +34,11 @@ public class ThirdPersonCam : MonoBehaviour
 
     if (inputDir != Vector3.zero)
         playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+
+    if (Input.GetMouseButton(1))
+        aimVirtualCamera.gameObject.SetActive(true);
+    else
+        aimVirtualCamera.gameObject.SetActive(false);
+    
     }
 }
