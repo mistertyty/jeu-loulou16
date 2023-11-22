@@ -21,17 +21,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: smokeParticle
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: a8b6bd8a4f4f8a94e8f1da803b1f945d, type: 2}
+  m_Shader: {fileID: -6465566751694194690, guid: 2c3c6a46626419c4f8bbdeab2ec2afbd, type: 3}
+  m_Parent: {fileID: 2100000, guid: b70741560f55778468a83de28654557f, type: 2}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _HAFTONESHAPES_DOT
+  - _RIMLIGHTING_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -39,11 +40,16 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - Vector1_e5b6f1488dec4326bd8bbd0e05156810: -0.24
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Parallax: 0.02
+    - _RimLightAlign: -0.3
+    - _RimLightSmootness: 0
+    - _RimPower: 0.386
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0, g: 0.5871551, b: 2.670157, a: 1}
   m_BuildTextureStacks: []

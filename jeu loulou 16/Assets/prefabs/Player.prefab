@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4840215231884129038}
-  - component: {fileID: 7932550490164630136}
   - component: {fileID: 4442746072662601229}
   - component: {fileID: 3195265600551891109}
   - component: {fileID: 7547958268269168529}
   - component: {fileID: 5549683287835574294}
   - component: {fileID: 2548807758120270424}
+  - component: {fileID: 5227466458787404451}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -39,29 +39,6 @@ Transform:
   - {fileID: 6203717888221681299}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &7932550490164630136
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 701738087223489911}
-  m_Material: {fileID: 13400000, guid: 2c4853fabf4ac3b4f8e643f0ca6e83ce, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4442746072662601229
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -171,6 +148,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1024
+  maxSlopeAngle: 0
   doubleJumpPower: 1
 --- !u!114 &2548807758120270424
 MonoBehaviour:
@@ -186,7 +164,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 701738087223489911}
   firePosition: {fileID: 6730957904176654093}
-  fireRotation: {fileID: 6203717888221681299}
+--- !u!136 &5227466458787404451
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701738087223489911}
+  m_Material: {fileID: 13400000, guid: 2c4853fabf4ac3b4f8e643f0ca6e83ce, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &718737607889054115
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ Material:
   m_ModifiedSerializedProperties: 16
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
+  - _OUTLINE
   - _SPECULAR_COLOR
   m_InvalidKeywords:
   - _SPECULARHIGHLIGHTS_OFF
@@ -70,7 +71,8 @@ Material:
     - _HatchingSmoothness: 0.1
     - _NoiseScale: 1
     - _NoiseStrength: 0.1
-    - _OutlineWidth: 6.33
+    - _OutlineEnabled: 1
+    - _OutlineWidth: 11.27
     - _OverrideShadowColor: 0
     - _RimLightAlign: -0.19
     - _RimLightSmoothness: 0
