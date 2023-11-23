@@ -10,7 +10,7 @@ public class ThirdPersonCam : MonoBehaviour
     public Transform player;
     public Transform playerObj;
     public Rigidbody rb;
-    [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
+    [SerializeField] private CinemachineVirtualCamera CombatFreelookCamera;
 
     public float rotationSpeed;
 
@@ -18,6 +18,7 @@ public class ThirdPersonCam : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        CombatFreelookCamera.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -36,9 +37,9 @@ public class ThirdPersonCam : MonoBehaviour
         playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 
     if (Input.GetMouseButton(1))
-        aimVirtualCamera.gameObject.SetActive(true);
+        CombatFreelookCamera.gameObject.SetActive(true);
     else
-        aimVirtualCamera.gameObject.SetActive(false);
+        CombatFreelookCamera.gameObject.SetActive(false);
     
     }
 }
