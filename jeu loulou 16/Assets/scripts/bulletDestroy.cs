@@ -5,9 +5,12 @@ using UnityEngine;
 public class bulletDestroy : MonoBehaviour
 {
     public ParticleSystem jumpSmoke;
-        private void OnCollisionEnter()
+        private void OnCollisionEnter(Collision other)
         {
+            if (!other.gameObject.CompareTag("Projectile"))
+            {
             Instantiate(jumpSmoke,transform.position,transform.rotation);
             Destroy(gameObject);
+            }
         }
 }
