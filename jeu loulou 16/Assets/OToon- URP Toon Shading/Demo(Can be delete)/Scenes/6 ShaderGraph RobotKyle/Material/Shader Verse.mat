@@ -24,15 +24,15 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 2c3c6a46626419c4f8bbdeab2ec2afbd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _HAFTONESHAPES_STRIPE
-  - _RIMLIGHTING_ON
-  - _SPECULARHIGHTLIGHTS_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
+  - _HAFTONESHAPES_STRIPE
   - _HALFTONESHAPE_STRIPE
   - _OVERRIDESHADOWCOLOR_ON
   - _RECEIVE_SHADOWS_OFF
+  - _RIMLIGHTING_ON
   - _SPECULARHIGHTLIGHTS
+  - _SPECULARHIGHTLIGHTS_ON
   - _SPECULAR_COLOR
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -107,8 +107,6 @@ Material:
     - _HatchingEnabled: 0
     - _HatchingRotation: 0
     - _HatchingSmoothness: 0.2
-    - _QueueControl: -1
-    - _QueueOffset: 0
     - _RIMLIGHTING: 1
     - _RimLightAlign: -0.34
     - _RimLightSmootness: 0
