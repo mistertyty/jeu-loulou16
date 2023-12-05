@@ -3,7 +3,12 @@ guid: 1bb1595e7a7daa94dab7be7150f5db77
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 88461eb55cc20c2479c39de127aab3eb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -33,11 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: idle
+      name: Armature|ArmatureAction
       takeName: Armature|ArmatureAction
       internalID: 4781951162920444690
-      firstFrame: 0
-      lastFrame: 60
+      firstFrame: 135
+      lastFrame: 212
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
