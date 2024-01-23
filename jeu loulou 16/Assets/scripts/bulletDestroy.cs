@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class bulletDestroy : MonoBehaviour
 {
-    public ParticleSystem jumpSmoke;
+    public ParticleSystem Explosion;
         private void OnCollisionEnter(Collision other)
         {
             if (!other.gameObject.CompareTag("Projectile"))
             {
-            Instantiate(jumpSmoke,transform.position,transform.rotation);
+            Instantiate(Explosion,transform.position,transform.rotation);
             Destroy(gameObject);
             }
         }

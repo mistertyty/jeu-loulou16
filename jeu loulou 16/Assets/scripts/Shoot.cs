@@ -8,13 +8,14 @@ public class Shoot : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform firePosition;
+    public int force;
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             GameObject bullet = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation);
-            bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 2000);
+            bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 1000 * force);
         }
     }
 }

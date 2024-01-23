@@ -115,7 +115,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448615102349775900}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -129,11 +129,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &3870756962007394218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,4 +146,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c90ec7c60f927a4d867f10e1b57fade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSmoke: {fileID: 1873610287357167228, guid: 3fb7646238f0e654190dd6d8d94abf87, type: 3}
+  Explosion: {fileID: 6863373598843249373, guid: f45e48091b1eea6499139fdae2db6376, type: 3}
