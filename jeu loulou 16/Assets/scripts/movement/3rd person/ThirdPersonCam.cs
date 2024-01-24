@@ -34,7 +34,11 @@ public class ThirdPersonCam : MonoBehaviour
     Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
     if (inputDir != Vector3.zero)
-        playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+    {
+        // Add a 90-degree rotation around the y-axis
+        Quaternion targetRotation = Quaternion.LookRotation(inputDir) * Quaternion.Euler(0f, 90f, 0f);
+        playerObj.rotation = Quaternion.Slerp(playerObj.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
 
     if (Input.GetMouseButton(1))
         CombatFreelookCamera.gameObject.SetActive(true);
