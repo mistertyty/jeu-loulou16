@@ -10,7 +10,6 @@ public class PlayerMovementTutorial : MonoBehaviour
     public ParticleSystem jumpSmoke;
     public ParticleSystem runSmoke;
     int i;
-    public Animator animator;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -62,10 +61,6 @@ public class PlayerMovementTutorial : MonoBehaviour
         moveSpeed = walkSpeed;
 
         oldPos = transform.position;
-
-        animator.SetBool("is_sprinting",false); //iddle at the start
-        animator.SetBool("is_walking",false);
-        animator.SetBool("is_idle",true);
     }
 
     private void Update()
@@ -74,26 +69,13 @@ public class PlayerMovementTutorial : MonoBehaviour
         grounded = Physics.SphereCast(transform.position,0.5f,Vector3.down, out RaycastHit yes,playerHeight * 0.5f - 0.3f, whatIsGround);
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
         if (((oldPos.x != transform.position.x) ||(oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) &((horizontalInput != 0) || (verticalInput != 0)))
-        {
-            animator.SetBool("is_sprinting",true); //sprinting
-            animator.SetBool("is_walking",false);
-            animator.SetBool("is_idle",false);
-
             if (i > 10)
             {
-                Instantiate(runSmoke,new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z),transform.rotation); // smoke particles
+                Instantiate(runSmoke,new Vector3 (transform.position.x, transform.position.y - 1, transform.position.z),transform.rotation);
                 i = 0;
             }
             i++;
-        }
-        else
-        {
-            animator.SetBool("is_sprinting",false); //iddle animation
-            animator.SetBool("is_walking",false);
-            animator.SetBool("is_idle",true);
-
-        }
-
+        
         oldPos = transform.position;
         MyInput();
         Sprint();
@@ -210,7 +192,7 @@ public class PlayerMovementTutorial : MonoBehaviour
             moveSpeed = walkSpeed;
     }
 
-    private bool OnSlope()
+        private bool OnSlope()
     {
         if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
         {
@@ -220,8 +202,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 
         return false;
     }
-
-    private Vector3 GetSlopeMoveDirection()
+        private Vector3 GetSlopeMoveDirection()
     {
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
