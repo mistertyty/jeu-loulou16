@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:jeu loulou 16/Assets/materials/Materials/Explosion.mat.meta
 guid: 7b872a00007ab224084d113c37ecce06
+=======
+guid: 105052792b5cec840bea89603a15733e
+>>>>>>> Stashed changes:jeu loulou 16/Assets/physics/New Physic Material.physicMaterial.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000
