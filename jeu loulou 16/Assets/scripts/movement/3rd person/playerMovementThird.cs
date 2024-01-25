@@ -73,7 +73,7 @@ public class PlayerMovementTutorial : MonoBehaviour
         // ground check
         grounded = Physics.SphereCast(transform.position,0.5f,Vector3.down, out RaycastHit yes,playerHeight * 0.5f - 0.3f, whatIsGround);
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
-        if (((oldPos.x != transform.position.x) ||(oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) &((horizontalInput != 0) || (verticalInput != 0)))
+        if (((oldPos.x != transform.position.x) || (oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
         {
             animator.SetBool("is_sprinting",true); //sprinting
             animator.SetBool("is_walking",false);
@@ -86,12 +86,19 @@ public class PlayerMovementTutorial : MonoBehaviour
             }
             i++;
         }
+        else if ((grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
+        {
+            animator.SetBool("is_sprinting",false); //iddle animation
+            animator.SetBool("is_walking",true);
+            animator.SetBool("is_idle",false);
+
+        }
+
         else
         {
             animator.SetBool("is_sprinting",false); //iddle animation
             animator.SetBool("is_walking",false);
             animator.SetBool("is_idle",true);
-
         }
 
         oldPos = transform.position;
