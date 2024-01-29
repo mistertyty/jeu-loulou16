@@ -41,7 +41,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     [Header("Slope Handling")]
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
-    private bool exitingSlope;
+    public float oldDistanceToGround;
 
 
     float horizontalInput;
@@ -120,6 +120,8 @@ public class PlayerMovementTutorial : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
             rb.drag = 0;
         }
+
+        EnteringOrExitingSlope();
     }
 
     private void FixedUpdate()
@@ -150,7 +152,7 @@ public class PlayerMovementTutorial : MonoBehaviour
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         // on slope
-        if (OnSlope() && !exitingSlope)
+        if (OnSlope())
         {
             rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
 
@@ -173,7 +175,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     private void SpeedControl()
     {
         // limiting speed on slope
-        if (OnSlope() && !exitingSlope)
+        if (OnSlope())
         {
             if (rb.velocity.magnitude > moveSpeed)
                 rb.velocity = rb.velocity.normalized * moveSpeed;
@@ -231,5 +233,23 @@ public class PlayerMovementTutorial : MonoBehaviour
     private Vector3 GetSlopeMoveDirection()
     {
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+    }
+
+    private void EnteringOrExitingSlope()
+    {
+        
+        Physics.Raycast(transform.position, Vector3.down, out var hit);
+        oldDistanceToGround = hit.distance;
+        Physics.Raycast(transform.position, Vector3.down, out var newhit);
+
+        if (newhit.distance > oldDistanceToGround)// if raycast length grows then gravity impulse down
+            {
+
+            }
+
+        else if (newhit.distance < oldDistanceToGround)
+        {
+
+        }
     }
 }
