@@ -240,7 +240,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     {
         Physics.Raycast(transform.position, Vector3.down, out var hit);
 
-        if ((hit.distance < 10f) && (!grounded))
+        if ((hit.distance < 2f) && (!grounded))
         {
             rb.AddForce(Vector3.down * 1000f, ForceMode.Force);
         }
