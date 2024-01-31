@@ -36,12 +36,14 @@ public class PlayerMovementTutorial : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
+    public bool grounded;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
     public float oldDistanceToGround;
+    private float newDistanceToGround;
+    public bool worked;
 
 
     float horizontalInput;
@@ -72,7 +74,6 @@ public class PlayerMovementTutorial : MonoBehaviour
     {
         // ground check
         grounded = Physics.SphereCast(transform.position,0.5f,Vector3.down, out RaycastHit yes,playerHeight * 0.5f - 0.3f, whatIsGround);
-        //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
         if (((oldPos.x != transform.position.x) || (oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
         {
             animator.SetBool("is_sprinting",true); //sprinting
@@ -121,7 +122,7 @@ public class PlayerMovementTutorial : MonoBehaviour
             rb.drag = 0;
         }
 
-        EnteringOrExitingSlope();
+        AntiFlyOff();
     }
 
     private void FixedUpdate()
@@ -235,21 +236,14 @@ public class PlayerMovementTutorial : MonoBehaviour
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 
-    private void EnteringOrExitingSlope()
+    private void AntiFlyOff()
     {
-        
         Physics.Raycast(transform.position, Vector3.down, out var hit);
-        oldDistanceToGround = hit.distance;
-        Physics.Raycast(transform.position, Vector3.down, out var newhit);
 
-        if (newhit.distance > oldDistanceToGround)// if raycast length grows then gravity impulse down
-            {
-
-            }
-
-        else if (newhit.distance < oldDistanceToGround)
+        if ((hit.distance < 10f) && (!grounded))
         {
-
+            rb.AddForce(Vector3.down * 1000f, ForceMode.Force);
         }
     }
+
 }
