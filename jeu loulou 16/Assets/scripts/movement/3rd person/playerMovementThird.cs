@@ -121,8 +121,8 @@ public class PlayerMovementTutorial : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
             rb.drag = 0;
         }
-
-        AntiFlyOff();
+            AntiFlyOff();
+        
     }
 
     private void FixedUpdate()
@@ -238,12 +238,13 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void AntiFlyOff()
     {
-        Physics.Raycast(transform.position, Vector3.down, out var hit);
-
-        if ((hit.distance < 2f) && (!grounded))
+        // set y velocity to zero when grounded to not fly off
+        //first case: going up
+        if (grounded && (OnSlope() == false) && jumpEnable)
         {
-            rb.AddForce(Vector3.down * 1000f, ForceMode.Force);
+            Vector3 vel  = rb.velocity;
+            vel.y = 0f;
+            rb.velocity = vel;
         }
     }
-
-}
+}   
