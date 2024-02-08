@@ -68,6 +68,8 @@ public class PlayerMovementTutorial : MonoBehaviour
         animator.SetBool("is_sprinting",false); //iddle at the start
         animator.SetBool("is_walking",false);
         animator.SetBool("is_idle",true);
+        animator.SetBool("is_jumping", false);
+       
     }
 
     private void Update()
