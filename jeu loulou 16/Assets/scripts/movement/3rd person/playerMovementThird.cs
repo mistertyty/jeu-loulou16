@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
+using Unity.Mathematics;
 
 public class PlayerMovementTutorial : MonoBehaviour
 {
+    
     [Header("Animations")]
     public ParticleSystem jumpSmoke;
     public ParticleSystem runSmoke;
@@ -20,6 +23,12 @@ public class PlayerMovementTutorial : MonoBehaviour
     [SerializeField] bool isSprinting;
     public Transform orientation;
     private Vector3 oldPos;
+    [SerializeField] Vector3 groundVelocity;
+    public float dashForce;
+
+    [Header("slow")]
+    public float groundSlow;
+    public float airSlow;
 
     [Header("jump")]
     public float jumpForce;
@@ -29,6 +38,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     [SerializeField] bool jumpEnable = true;
     public int maxJumps;
     public int numberOfBonusJumps;
+    public float maxAirSpeed;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -55,6 +65,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     [Header("power ups")]
     [SerializeField] bool doubleJumpPower;
+    public float actualspeed;
 
     private void Start()
     {
@@ -72,8 +83,11 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void Update()
     {
+        
+        actualspeed = rb.velocity.magnitude;
         // ground check
-        grounded = Physics.SphereCast(transform.position,0.5f,Vector3.down, out RaycastHit yes,playerHeight * 0.5f - 0.3f, whatIsGround);
+        grounded = Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hit,playerHeight * 0.5f - 0.3f, whatIsGround);
+        OnMoving(hit);
         if (((oldPos.x != transform.position.x) || (oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
         {
             animator.SetBool("is_sprinting",true); //sprinting
@@ -149,6 +163,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void MovePlayer()
     {
+        float maxAirSpeed = Mathf.Max(new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude, sprintSpeed);
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
@@ -163,36 +178,63 @@ public class PlayerMovementTutorial : MonoBehaviour
 
         // on ground
         else if(grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
+        {
+            //rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce( new Vector3 (((moveDirection.normalized.x * moveSpeed ) + groundVelocity.x) * 10 , 0f , ((moveDirection.normalized.z * moveSpeed) + groundVelocity.z) * 10 ), ForceMode.Force);
+        }
         // in air
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
 
         // turn gravity off while on slope
         rb.useGravity = !OnSlope();
+
+        // used to not slide when you stop
+        if (grounded && (moveDirection == new Vector3(0,0,0)) )
+        {
+            //rb.velocity = new Vector3(0,rb.velocity.y,0) + groundVelocity;
+        }
     }
 
     private void SpeedControl()
     {
+        Vector3 flatVel = new Vector3 (rb.velocity.x, 0, rb.velocity.z);
+        Vector3 playerDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
+
         // limiting speed on slope
         if (OnSlope())
         {
-            if (rb.velocity.magnitude > moveSpeed)
+            if (rb.velocity.magnitude > moveSpeed + groundVelocity.magnitude)
                 rb.velocity = rb.velocity.normalized * moveSpeed;
         }
 
-        // limiting speed on ground or in air
-        else
+        // limiting speed on ground
+        else if (grounded)
         {
-            Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-            // limit velocity if needed
-            if (flatVel.magnitude > moveSpeed)
+            if (flatVel.magnitude > sprintSpeed)
             {
-                Vector3 limitedVel = flatVel.normalized * moveSpeed;
-                rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+                if (grounded && flatVel.magnitude > sprintSpeed)
+                {
+                    float decayFactor = Mathf.Exp(-groundSlow * Time.deltaTime);
+                    float decelerationForce = (1 - decayFactor) * rb.mass / Time.deltaTime;
+
+                    Vector3 decelerationForceVector = -playerDirection * decelerationForce;
+
+                    rb.AddForce(decelerationForceVector, ForceMode.Force);
+                }
             }
+            //set maxvelocity before jumping to current speed
+        }
+
+        //limit speed in the air
+        if (!grounded)
+        {
+            if (flatVel.magnitude > maxAirSpeed)
+            {
+                Vector3 newVelocity = rb.velocity.normalized * maxAirSpeed;
+
+                rb.velocity = new Vector3(newVelocity.x, rb.velocity.y, newVelocity.y);
+            } 
         }
     }
 
@@ -219,6 +261,12 @@ public class PlayerMovementTutorial : MonoBehaviour
         else
             moveSpeed = walkSpeed;
     }
+    
+    private void Dash()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+            rb.AddForce(new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized * dashForce, ForceMode.Impulse);
+    }
 
     private bool OnSlope()
     {
@@ -238,13 +286,33 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void AntiFlyOff()
     {
-        // set y velocity to zero when grounded to not fly off
+        /*/ set y velocity to zero when grounded to not fly off
         //first case: going up
-        if (grounded && (OnSlope() == false) && jumpEnable)
+        if (grounded && !OnSlope() && jumpEnable)
         {
             Vector3 vel  = rb.velocity;
             vel.y = 0f;
             rb.velocity = vel;
         }
+        */
     }
-}   
+
+    private void OnMoving(RaycastHit ground)
+    {
+
+        if (ground.collider != null && ground.collider.tag == "moving")
+        {
+            moving_platform_up movingScript = ground.collider.GetComponent<moving_platform_up>();
+            //groundVelocity = movingScript.vectorspeed;
+            groundVelocity = Vector3.zero;
+        }
+
+        else if (ground.collider != null)
+        {
+            groundVelocity = Vector3.zero;
+        }
+        
+        
+    }
+
+}

@@ -10,7 +10,6 @@ public class ThirdPersonCam : MonoBehaviour
     public Transform player;
     public Transform playerObj;
     public Rigidbody rb;
-    [SerializeField] private CinemachineVirtualCamera CombatFreelookCamera;
 
     public float rotationSpeed;
 
@@ -18,32 +17,24 @@ public class ThirdPersonCam : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        CombatFreelookCamera.gameObject.SetActive(false);
     }
 
     private void Update()
     {
+        // rotate orientation
+        Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
+        orientation.forward = viewDir.normalized;
 
-    // rotate orientation
-    Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
-    orientation.forward = viewDir.normalized;
+        // roate player object
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-    // roate player object
-    float horizontalInput = Input.GetAxis("Horizontal");
-    float verticalInput = Input.GetAxis("Vertical");
-    Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-    if (inputDir != Vector3.zero)
-    {
-        // Add a 90-degree rotation around the y-axis
-        Quaternion targetRotation = Quaternion.LookRotation(inputDir) * Quaternion.Euler(0f, 90f, 0f);
-        playerObj.rotation = Quaternion.Slerp(playerObj.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-    }
-
-    if (Input.GetMouseButton(1))
-        CombatFreelookCamera.gameObject.SetActive(true);
-    else
-        CombatFreelookCamera.gameObject.SetActive(false);
-    
+        if (inputDir != Vector3.zero)
+        {
+            // Add a 90-degree rotation around the y-axis
+            Quaternion targetRotation = Quaternion.LookRotation(inputDir) * Quaternion.Euler(0f, 90f, 0f);
+            playerObj.rotation = Quaternion.Slerp(playerObj.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
     }
 }
