@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem jumpSmoke;
     public ParticleSystem runSmoke;
     public ParticleSystem dash;
+    public ParticleSystem coin;
     int i;
     public Animator animator;
 
@@ -21,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public float groundDrag;
     public float walkSpeed;
     public float sprintSpeed;
-    [SerializeField] bool isSprinting;
+    private bool isSprinting;
     public Transform orientation;
     private Vector3 oldPos;
     public Vector3 flatVel;
@@ -131,11 +132,13 @@ public class PlayerController : MonoBehaviour
         }
 
         oldPos = transform.position;
-        MyInput();
-        Sprint();
-        Dash();
-        dragManagment();
-        
+        if (!pauseTrigger.isPaused)
+        {
+            MyInput();
+            Sprint();
+            Dash();
+            dragManagment();
+        }
     }
 
     private void FixedUpdate()
@@ -221,14 +224,30 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
 
             // limit air speed to last speed on ground
-            if (flatVel.magnitude > speedOnGround)
+            if (speedOnGround >= sprintSpeed)
             {
-                flatVel = flatVel.normalized * speedOnGround;
-                rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.z);
+                if (flatVel.magnitude > speedOnGround)
+                {
+                        flatVel = flatVel.normalized * speedOnGround;
+                        rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.z);
+                }
             }
 
             else
-                speedOnGround -= Time.deltaTime;
+            {
+                if (isSprinting && flatVel.magnitude > sprintSpeed)
+                {
+                    flatVel = flatVel.normalized * sprintSpeed;
+                    rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.z);
+                }
+
+                else if (!isSprinting && flatVel.magnitude > walkSpeed)
+                {
+                    flatVel = flatVel.normalized * walkSpeed;
+                    rb.velocity = new Vector3(flatVel.x, rb.velocity.y, flatVel.z);
+                }
+            }
+
         }
     }
 
@@ -274,14 +293,14 @@ public class PlayerController : MonoBehaviour
             //turn off gravity while dashing, done in slopecontrol since they use gravity
         }
         
-        if (dashCooldownTimer < 0) 
+        if (dashCooldownTimer >= 0) 
         {
-            if (grounded)
-                dashEnable = true;
+            dashEnable = false;
+            dashCooldownTimer -= Time.deltaTime;             
         }
 
-        else
-            dashCooldownTimer -= Time.deltaTime;
+        else if (grounded)
+            dashEnable = true;
 
     }
 
@@ -337,4 +356,13 @@ public class PlayerController : MonoBehaviour
             rb.velocity += groundSpeed;
         }
     }
+
+    private void OnTriggerEnter(Collider collider)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("powerup"))
+            {
+                Instantiate(coin,collider.transform.position,quaternion.identity);
+                Destroy(collider.gameObject);
+            }
+        }
 }

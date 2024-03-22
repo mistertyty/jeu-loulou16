@@ -7,6 +7,8 @@ TagManager:
   - Projectile
   - moving
   - Enemy
+  - Ground
+  - score
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - whatIsGround
   - whatIsPlayer
   - whatIsPlayerHitbox
-  - 
-  - 
+  - whatIsEnemyHitbox
+  - powerup
   - 
   - 
   - 

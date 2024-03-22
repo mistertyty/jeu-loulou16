@@ -8,7 +8,6 @@ public class particlePlay : MonoBehaviour
     {
         ParticleSystem ps = GetComponent<ParticleSystem>();
         ps.Play();
-        Debug.Log(gameObject);
         Destroy(this.gameObject, 3f);
     }
 }

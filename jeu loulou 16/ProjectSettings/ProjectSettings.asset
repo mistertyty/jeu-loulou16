@@ -749,11 +749,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: d37a93fc-252a-4904-9c46-f83ed39ac294
+  cloudProjectId: 3439c0e9-03e0-495a-94e1-1041b0500742
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: jeu loulou 16
-  organizationId: mistertyphon
+  projectName: My project (1)
+  organizationId: ps3000
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

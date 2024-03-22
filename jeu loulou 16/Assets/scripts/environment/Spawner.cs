@@ -15,42 +15,6 @@ public class Spawner : MonoBehaviour
             Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
             Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
             Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-        }
-    }
-
-    private void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.CompareTag(targetTag))
-        {
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
-            Instantiate(spawn,spawnPosition.position,spawnPosition.rotation);
         }
     }
 }
