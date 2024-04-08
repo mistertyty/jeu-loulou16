@@ -181,7 +181,7 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineEnabled: 1
     - _OutlineMode: 0
-    - _OutlineWidth: 12
+    - _OutlineWidth: 2
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -211,9 +211,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.52201253, g: 0.4539958, b: 0.10670064, a: 1}
+    - _BaseColor: {r: 0.9622642, g: 0.81367224, b: 0.021181757, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.25, g: 0.22215053, b: 0, a: 1}
+    - _EmissionColor: {r: 0.78616345, g: 0.71244395, b: 0.106304966, a: 1}
     - _FaceFrontDirection: {r: 0, g: 0, b: 1, a: 0}
     - _FaceRightDirection: {r: 1, g: 0, b: 0, a: 0}
     - _HairSpecColor: {r: 0, g: 0, b: 0, a: 1}

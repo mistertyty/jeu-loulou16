@@ -9,6 +9,8 @@ public class leaderboardDisplay : MonoBehaviour
 {
     [SerializeField] private List<TextMeshProUGUI> names;
     [SerializeField] private List<TextMeshProUGUI> scores;
+    [SerializeField] private AudioSource mainTheme;
+    public Slider volumeSlider;
     public GameObject background;
     public GameObject start;
     public GameObject end;
@@ -30,6 +32,12 @@ public class leaderboardDisplay : MonoBehaviour
         ));
     }
 
+    void Awake()
+    {
+        going = true;
+        GetLeaderboard();
+        Invoke("refresh", 60);
+    }
     void Start()
     {
         going = true;
@@ -58,6 +66,7 @@ public class leaderboardDisplay : MonoBehaviour
 
     void Update()
     {
+        mainTheme.volume = volumeSlider.value;
         if (going == true)
         {
             background.transform.position = Vector3.MoveTowards(background.transform.position, end.transform.position, speed);

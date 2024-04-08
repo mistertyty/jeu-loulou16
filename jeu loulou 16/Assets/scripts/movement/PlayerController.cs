@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
     public Vector3 groundSpeed;
     private Transform previousParent;
 
+    [Header("sounds")]
+    public AudioSource dashSound;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -79,6 +81,8 @@ public class PlayerController : MonoBehaviour
     [Header("power ups")]
     [SerializeField] bool doubleJumpPower;
 
+
+
     private void Start()
     {
         previousParent = transform.parent;
@@ -89,9 +93,9 @@ public class PlayerController : MonoBehaviour
 
         oldPos = transform.position;
 
-        animator.SetBool("is_sprinting",false); //iddle at the start
-        animator.SetBool("is_walking",false);
+        animator.SetBool("is_walking",false); //iddle at the start
         animator.SetBool("is_idle",true);
+        animator.SetBool("is_sprinting",false);
     }
 
     private void Update()
@@ -105,9 +109,9 @@ public class PlayerController : MonoBehaviour
         movingPlatform(hit);
         if (((oldPos.x != transform.position.x) || (oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
         {
-            animator.SetBool("is_sprinting",true); //sprinting
-            animator.SetBool("is_walking",false);
+            animator.SetBool("is_walking",false); //sprinting
             animator.SetBool("is_idle",false);
+            animator.SetBool("is_sprinting",true);
 
             if (i > 10)
             {
@@ -118,17 +122,17 @@ public class PlayerController : MonoBehaviour
         }
         else if ((grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
         {
-            animator.SetBool("is_sprinting",false); //iddle animation
-            animator.SetBool("is_walking",true);
+            animator.SetBool("is_walking",true); //walking
             animator.SetBool("is_idle",false);
+            animator.SetBool("is_sprinting",false);
 
         }
 
         else
         {
-            animator.SetBool("is_sprinting",false); //iddle animation
-            animator.SetBool("is_walking",false);
+            animator.SetBool("is_walking",false); //iddle if nothing
             animator.SetBool("is_idle",true);
+            animator.SetBool("is_sprinting",false);
         }
 
         oldPos = transform.position;
@@ -273,6 +277,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(dashKey))
             {
                 isDashing = true;
+                dashSound.Play();
                 speedOnGround += dashForce;
                 rb.AddForce(new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized * dashForce, ForceMode.Impulse);
                 rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);

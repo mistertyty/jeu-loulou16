@@ -9,6 +9,7 @@ public class Shoot : MonoBehaviour
     public float shootInterval = 0.5f; // Adjust this to change the interval between shots
     private bool isShooting = false;
     private Vector3 bulletDirection;
+    public AudioSource gunshoot;
 
     void Update()
     {
@@ -38,6 +39,7 @@ public class Shoot : MonoBehaviour
 
     void ShootBullet()
     {
+        gunshoot.Play();
         RaycastHit hit;
         GameObject bullet = Instantiate(bulletPrefab, firePosition.position, Quaternion.identity); // Assuming bullet prefab already has correct rotation
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, Mathf.Infinity))

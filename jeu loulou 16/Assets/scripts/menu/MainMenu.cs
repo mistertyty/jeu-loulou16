@@ -2,14 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject optionsMenu;
     public GameObject leaderboardMenu;
+    [SerializeField] private CanvasGroup blackScreen;
+    public Slider volumeSlider;
+    public bool transition;
+    public float potato = 0;
+
+    public void Start()
+    {
+        Time.timeScale = 1;
+    }
     public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        transition = true;
     }
 
     public void Options()
@@ -29,5 +39,24 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    
+    private void loadGame()
+    {
+        SceneManager.LoadScene("oli");
+    }
+
+    public void Update()
+    {
+        if (transition == true)
+        {   
+            potato += Time.deltaTime;
+            Debug.Log(Time.deltaTime);
+            volumeSlider.value -= Time.deltaTime/2;
+            blackScreen.alpha += Time.deltaTime/2;
+        }
+
+        if (blackScreen.alpha == 1)
+        {
+            loadGame();
+        }
+    }
 }

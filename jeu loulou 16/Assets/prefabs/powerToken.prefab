@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 6578532922474507133}
   - component: {fileID: 6520796299243132542}
   - component: {fileID: 8897670436125227471}
+  - component: {fileID: 2980708682661583207}
   m_Layer: 14
   m_Name: powerToken
   m_TagString: Untagged
@@ -226,3 +227,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &2980708682661583207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6151669045854773691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e8d342c4136db459bd84d6d60e8d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 100
+  bobSpeed: 1
+  bobHeight: 1

@@ -86,6 +86,7 @@ public class ennemyAIdino : MonoBehaviour
     {
         Debug.Log("i get 1 point yay");
         pausetrigger.score += value;
+        pausetrigger.currentGameTime += 1f;
         Instantiate(deathEffect, transform.position, transform.rotation);
         Destroy(parent);
     }

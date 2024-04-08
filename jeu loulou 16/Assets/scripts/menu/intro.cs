@@ -7,48 +7,58 @@ public class intro : MonoBehaviour
 {
     public float waitTime;
     [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private GameObject blue;
-    [SerializeField] private GameObject endpoint;
+    [SerializeField] private CanvasGroup blackScreen;
     public GameObject mainMenu;
-    public GameObject black;
     public float fadeSlow;
-    private bool go;
+    private bool fadeOutStart;
     private bool goBackground;
-    public float movespeed;
+
     // Start is called before the first frame update
     void Start()
     {
-        go = false;
+        canvasGroup.alpha = 0;
+        blackScreen.alpha = 1;
+        fadeOutStart = false;
         goBackground = false;
-        Invoke("transitionImage", waitTime);
+        Invoke("fadeOut", waitTime);
     }
 
     void Update()
     {
-        if (canvasGroup.alpha > 0 && go)
+
+        if (canvasGroup.alpha < 1 && !fadeOutStart)
+        {
+            canvasGroup.alpha += Time.deltaTime / fadeSlow ;
+        }
+        else if(canvasGroup.alpha < 1)
+            Invoke("fadeOut", waitTime);
+
+
+        if (canvasGroup.alpha > 0 && fadeOutStart)
         {
             canvasGroup.alpha -= Time.deltaTime / fadeSlow ;
         }
-        else if (go && !goBackground)
+        else if (fadeOutStart && !goBackground)
             Invoke("transitionBackground", waitTime/2);
 
-        if (goBackground == true && blue.transform.position != endpoint.transform.position)
+
+        if (goBackground == true && blackScreen.alpha != 0)
         {
-            blue.transform.position = Vector3.MoveTowards(blue.transform.position, endpoint.transform.position, movespeed);
+            blackScreen.alpha -= Time.deltaTime / fadeSlow;
+
         }
         
-        if (blue.transform.position == endpoint.transform.position)
+        if (blackScreen.alpha == 0)
         {
             mainMenu.SetActive(true);
-            black.SetActive(false);
             gameObject.SetActive(false);
-            blue.SetActive(false);
+
 
         }
     }
-    private void transitionImage()
+    private void fadeOut()
     {
-        go = true;
+        fadeOutStart = true;
     }
 
     private void transitionBackground()

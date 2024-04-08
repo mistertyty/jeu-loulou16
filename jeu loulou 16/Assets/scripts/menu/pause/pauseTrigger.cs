@@ -17,7 +17,7 @@ public class pauseTrigger : MonoBehaviour
     [SerializeField] private TextMeshProUGUI time;
     [SerializeField] private TextMeshProUGUI scoreDisplay;
     public float maxgameTime;
-    private float currentGameTime;
+    public float currentGameTime;
     private int intGameTime;
     public bool gameEnd;
     public int score;

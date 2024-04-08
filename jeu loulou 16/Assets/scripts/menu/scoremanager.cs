@@ -10,6 +10,7 @@ public class scoremanager : MonoBehaviour
     public UnityEvent<string, int> submitScoreEvent;
     public void SubmitScore()
     {
+        Debug.Log("ca marche pourtant connard");
         submitScoreEvent.Invoke(inputName.text, pauseTrigger.score);
     }
 }
