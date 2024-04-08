@@ -9,9 +9,11 @@ public class MainMenu : MonoBehaviour
     public GameObject optionsMenu;
     public GameObject leaderboardMenu;
     [SerializeField] private CanvasGroup blackScreen;
-    public Slider volumeSlider;
     public bool transition;
     public float potato = 0;
+
+    public AudioSource mainTheme;
+
 
     public void Start()
     {
@@ -50,7 +52,7 @@ public class MainMenu : MonoBehaviour
         {   
             potato += Time.deltaTime;
             Debug.Log(Time.deltaTime);
-            volumeSlider.value -= Time.deltaTime/2;
+            mainTheme.volume -= Time.deltaTime/2;
             blackScreen.alpha += Time.deltaTime/2;
         }
 

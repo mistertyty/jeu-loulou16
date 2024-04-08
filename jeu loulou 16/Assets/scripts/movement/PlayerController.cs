@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("power ups")]
     [SerializeField] bool doubleJumpPower;
+    public AudioClip coinSound;
+    public Shoot shoot;
 
 
 
@@ -368,6 +370,40 @@ public class PlayerController : MonoBehaviour
             {
                 Instantiate(coin,collider.transform.position,quaternion.identity);
                 Destroy(collider.gameObject);
+                AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.clip = coinSound;
+                audioSource.volume = 100; // Set the volume
+                audioSource.Play();
+                Destroy(audioSource, coinSound.length);
+                int randomIndex = UnityEngine.Random.Range(0, 2);
+                if (randomIndex == 0)
+                    ShootFaster();
+                else
+                    RunFaster();
             }
         }
+
+    private void ShootFaster()
+    {
+        Debug.Log("shooty wooty");
+        shoot.shootInterval = 0.1f;
+        Invoke("NotShootFaster", 10);
+    }
+
+    private void RunFaster()
+    {
+        Debug.Log("runny");
+        sprintSpeed = sprintSpeed * 1.5f;
+        Invoke("NotRunFaster", 10);
+    }
+
+    private void NotShootFaster()
+    {
+        shoot.shootInterval = 0.15f;
+    }
+
+    private void NotRunFaster()
+    {
+        sprintSpeed = sprintSpeed / 1.5f;
+    }
 }

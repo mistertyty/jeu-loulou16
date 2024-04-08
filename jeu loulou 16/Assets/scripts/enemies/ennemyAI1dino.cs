@@ -1,4 +1,7 @@
 
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,6 +34,7 @@ public class ennemyAIdino : MonoBehaviour
     public int value;
     private Vector3 prevPos;
     public GameObject parent;
+    public List<AudioClip> audioFiles;
 
     private void Awake()
     {
@@ -74,8 +78,8 @@ public class ennemyAIdino : MonoBehaviour
     private void SearchWalkPoint()
     {
         //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        float randomZ = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
+        float randomX = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
         
@@ -84,12 +88,36 @@ public class ennemyAIdino : MonoBehaviour
     }
     private void DestroyEnemy()
     {
+        DeathSound();
         Debug.Log("i get 1 point yay");
         pausetrigger.score += value;
         pausetrigger.currentGameTime += 1f;
         Instantiate(deathEffect, transform.position, transform.rotation);
         Destroy(parent);
     }
+
+    private void DeathSound()
+{
+    if (audioFiles.Count > 0)
+    {
+        int randomIndex = UnityEngine.Random.Range(0, audioFiles.Count);
+        AudioClip randomClip = audioFiles[randomIndex];
+
+        // Create a new GameObject to hold the AudioSource component
+        GameObject audioObject = new GameObject("DeathSound");
+        AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+        audioSource.clip = randomClip;
+        audioSource.volume = 1.0f; // Set the volume (value between 0 and 1)
+        audioSource.Play();
+
+        // Destroy the GameObject after the clip finishes playing
+        Destroy(audioObject, randomClip.length);
+    }
+    else
+    {
+        Debug.LogWarning("No audio files available for death sound.");
+    }
+}
 
     private void OnDrawGizmosSelected()
     {

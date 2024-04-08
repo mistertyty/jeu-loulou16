@@ -10,6 +10,7 @@ public class dino : MonoBehaviour
     private Vector3 newpos;
     private Quaternion newrot;
     public float speed;
+    public List<AudioClip> audioFiles;
     // Start is called before the first frame update
     
 
@@ -33,11 +34,28 @@ public class dino : MonoBehaviour
         if (collision.gameObject.CompareTag("Projectile"))
         {
             TakeDamage(1);
+            hitSound();
+
         }
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+    }
+
+    public void hitSound()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, audioFiles.Count);
+        AudioClip randomClip = audioFiles[randomIndex];
+
+        // Play the randomly selected audio clip
+        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = randomClip;
+            audioSource.volume = 100; // Set the volume
+            audioSource.Play();
+
+            // Destroy the AudioSource component when the clip finishes playing
+            Destroy(audioSource, randomClip.length);
     }
 }

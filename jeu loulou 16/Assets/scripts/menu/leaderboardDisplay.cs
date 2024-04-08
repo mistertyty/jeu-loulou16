@@ -7,16 +7,16 @@ using Unity.VisualScripting;
 
 public class leaderboardDisplay : MonoBehaviour
 {
+    // secret leaderboard key: a23c87185143668f4c864eb78f04d06cfc561ce146f2d42baaccdec02f769ab96c0893a64e9721bc3a68d1e73cddc4adca2a16f5c644917839d7d0a411bcab2d4584a9035469f4fe694bd7b0411eea50f4a1790882ac2523171a745521e42cdb7d24f96e31a3fad8d6e8f59b6fbe47f6a57ce85113dd041e3a89a9ed0d1f358c
     [SerializeField] private List<TextMeshProUGUI> names;
     [SerializeField] private List<TextMeshProUGUI> scores;
     [SerializeField] private AudioSource mainTheme;
-    public Slider volumeSlider;
     public GameObject background;
     public GameObject start;
     public GameObject end;
     public float speed;
     public bool going;
-    private string publicLeaderboardKey = "9041376098ea91e7a5412cfe7fd955090262f272f9733b848ad5552741116005";
+    private string publicLeaderboardKey = "23caa230eddc2e0f8157d91ff3bebe9f4c3242b0383aff64b268611d4278b011";
 
     public void GetLeaderboard()
     {
@@ -66,7 +66,6 @@ public class leaderboardDisplay : MonoBehaviour
 
     void Update()
     {
-        mainTheme.volume = volumeSlider.value;
         if (going == true)
         {
             background.transform.position = Vector3.MoveTowards(background.transform.position, end.transform.position, speed);
