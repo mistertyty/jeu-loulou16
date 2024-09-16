@@ -27,15 +27,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 oldPos;
     public Vector3 flatVel;
 
-    [Header("Dash")]
-    public float dashForce;
-    public float dashCooldown;
-    public float dashCooldownTimer;
-    [SerializeField] bool dashEnable = true;
-    [SerializeField] bool isDashing = false;
-    public float dashtime;
-    public float dashtimeTimer;
-
     [Header("jump")]
     public float jumpForce;
     public float airMultiplier;
@@ -48,7 +39,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode dashKey = KeyCode.LeftControl;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -58,11 +48,9 @@ public class PlayerController : MonoBehaviour
     public Vector3 groundSpeed;
     private Transform previousParent;
 
-    [Header("sounds")]
-    public AudioSource dashSound;
-
     [Header("Slope Handling")]
     public float maxSlopeAngle;
+    public float angle;
     private RaycastHit slopeHit;
     public float oldDistanceToGround;
     private float newDistanceToGround;
@@ -102,14 +90,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //update should be used for inputs
         
         actualspeed = rb.velocity.magnitude;
         flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         actualFlatSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
         // ground check
-        grounded = Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hit,playerHeight * 0.5f - 0.3f, whatIsGround);
-        movingPlatform(hit);
-        if (((oldPos.x != transform.position.x) || (oldPos.z != transform.position.z)) & (moveSpeed == sprintSpeed) & (grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
+        if ((moveSpeed == sprintSpeed) && grounded && ((horizontalInput != 0) || (verticalInput != 0)))
         {
             animator.SetBool("is_walking",false); //sprinting
             animator.SetBool("is_idle",false);
@@ -122,7 +109,7 @@ public class PlayerController : MonoBehaviour
             }
             i++;
         }
-        else if ((grounded) & ((horizontalInput != 0) || (verticalInput != 0)))
+        else if (grounded && ((horizontalInput != 0) || (verticalInput != 0)))
         {
             animator.SetBool("is_walking",true); //walking
             animator.SetBool("is_idle",false);
@@ -141,15 +128,15 @@ public class PlayerController : MonoBehaviour
         if (!pauseTrigger.isPaused)
         {
             MyInput();
-            Sprint();
-            Dash();
             dragManagment();
         }
     }
 
     private void FixedUpdate()
     {
+        //fixedupdate should be used for physics
         MovePlayer();
+        GroundPhysics();
     }
 
     private void MyInput()
@@ -162,11 +149,16 @@ public class PlayerController : MonoBehaviour
         {
             jumpEnable = false;
             Invoke(nameof(ResetJump),0.1f);
+
             if (coyoteTimeCounter < 0f)
-                numberOfBonusJumps-=1;
+                numberOfBonusJumps = 0;
+
             coyoteTimeCounter = 0f;
+
             Jump();
         }
+
+        Sprint();
     }
 
     private void MovePlayer()
@@ -192,12 +184,12 @@ public class PlayerController : MonoBehaviour
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier , ForceMode.Force);
 
-        // turn gravity off while on slope
-        if (!isDashing)
-            rb.useGravity = !OnSlope();
+        // turn gravity off while on slope can also be turned of while dash but remains to be seen
+
+        //if (!isDashing)
+        rb.useGravity = !OnSlope();
         
-        else
-            rb.useGravity = false;
+        //else
     }
 
     private void Jump()
@@ -212,7 +204,7 @@ public class PlayerController : MonoBehaviour
 
     private void dragManagment()
     {
-        if (grounded && !isDashing)
+        if (grounded)
         {
             rb.drag = groundDrag;
             if (doubleJumpPower && jumpEnable)
@@ -266,56 +258,20 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
             isSprinting = !isSprinting;
+
         if (isSprinting)
             moveSpeed = sprintSpeed;
+
         else
             moveSpeed = walkSpeed;
     }
     
-    private void Dash()
-    {
-        if (dashEnable)
-        {
-            if (Input.GetKeyDown(dashKey))
-            {
-                isDashing = true;
-                dashSound.Play();
-                speedOnGround += dashForce;
-                rb.AddForce(new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized * dashForce, ForceMode.Impulse);
-                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-                dashCooldownTimer = dashCooldown;
-                dashEnable = false;
-                Instantiate(dash,transform.position,transform.rotation);
-            }
-        }
-        if (isDashing == true)
-        {
-            dashtimeTimer -= Time.deltaTime;
-            if (dashtimeTimer < 0)
-            {
-                dashtimeTimer = dashtime;
-                isDashing = false;
-            }
-            //turn off gravity while dashing, done in slopecontrol since they use gravity
-        }
-        
-        if (dashCooldownTimer >= 0) 
-        {
-            dashEnable = false;
-            dashCooldownTimer -= Time.deltaTime;             
-        }
-
-        else if (grounded)
-            dashEnable = true;
-
-    }
 
     private bool OnSlope()
     {
         if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
         {
-            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            angle = Vector3.Angle(Vector3.up, slopeHit.normal);
             return angle < maxSlopeAngle && angle != 0;
         }
 
@@ -355,7 +311,7 @@ public class PlayerController : MonoBehaviour
             groundSpeed = Vector3.zero;
         }
 
-        if (transform.parent != previousParent && groundSpeed == Vector3.zero)
+        if (transform.parent != previousParent)
         {
             // If the parent has changed, add groundSpeed to the player's velocity
             // Update the previous parent
@@ -405,5 +361,23 @@ public class PlayerController : MonoBehaviour
     private void NotRunFaster()
     {
         sprintSpeed = sprintSpeed / 1.5f;
+    }
+
+    private void GroundPhysics()
+    {
+        grounded = Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hit,playerHeight * 0.5f - 0.3f, whatIsGround);
+
+
+        Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f);
+        angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+
+        if (angle > maxSlopeAngle)
+        {
+            Debug.Log("no really");
+            grounded = false;
+        }
+
+
+        movingPlatform(hit);
     }
 }

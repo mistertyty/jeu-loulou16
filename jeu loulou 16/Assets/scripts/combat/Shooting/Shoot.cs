@@ -46,7 +46,7 @@ public class Shoot : MonoBehaviour
             bulletDirection = hit.point - firePosition.position;
 
         else
-            bulletDirection = (Camera.main.transform.position + Camera.main.transform.forward * 1000) - firePosition.position;
+            bulletDirection = Camera.main.transform.position + Camera.main.transform.forward * 100 - firePosition.position;
 
         bullet.GetComponent<Rigidbody>().AddForce(bulletDirection.normalized * force, ForceMode.Impulse);
     }

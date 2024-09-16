@@ -31,7 +31,7 @@ Material:
     - _SunDiscContribution: 1
     - _SunDiscExponent: 20000
     - _SunDiscMultiplier: 5
-    - _SunHaloContribution: 0.5
+    - _SunHaloContribution: 0.211
     - _SunHaloExponent: 100
     - _Title: 0
     - __dirty: 0

@@ -43,6 +43,7 @@ public class leaderboardDisplay : MonoBehaviour
         going = true;
         GetLeaderboard();
         Invoke("refresh", 60);
+        mainTheme.Pause();
     }
 
     void refresh()
